@@ -9,7 +9,7 @@ import {
 } from '@chakra-ui/react';
 import { BigNumber, ethers } from 'ethers';
 import { useState } from 'react';
-import RoboPunksNFT from './RoboPunksNFT.json';
+import RoboPunksNFT from '../RoboPunksNFT.json';
 
 const roboPunksNFTAddress = '0x255766C29881969DFFE78f9306D94FA1B14962FC';
 
@@ -56,7 +56,7 @@ const MainMint = ({ accounts, setAccounts }) => {
 
   return (
     <Flex justify='center' align='center' height='100vh' paddingBottom='150px'>
-      <Box width='520px'>
+      <Box width={{ base: '320px', sm: '520px' }}>
         <div>
           {errorAlert ? (
             <Alert status='error'>

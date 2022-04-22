@@ -1,28 +1,14 @@
-import {
-  AlertDialog,
-  AlertDialogBody,
-  AlertDialogContent,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogOverlay,
-  Box,
-  Button,
-  Flex,
-  Image,
-  Link,
-  Spacer,
-  Text,
-} from '@chakra-ui/react';
+import { Box, Button, Flex, Image, Link, Spacer, Text } from '@chakra-ui/react';
 import { useState } from 'react';
-import Email from './assets/social-media-icons/email_32x32.png';
-import Facebook from './assets/social-media-icons/facebook_32x32.png';
-import Twitter from './assets/social-media-icons/twitter_32x32.png';
+import Email from '../assets/social-media-icons/email_32x32.png';
+import Facebook from '../assets/social-media-icons/facebook_32x32.png';
+import Twitter from '../assets/social-media-icons/twitter_32x32.png';
+import Alert from './Alert';
+import ModalButton from './ModalButton';
 
 const NavBar = ({ accounts, setAccounts }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [msgError, setMsgError] = useState(
-    'Wrong Network, change your Metamask Network to Rinkeby Test Network!',
-  );
+  const [msgError, setMsgError] = useState('');
 
   console.log('isOpen:', isOpen);
 
@@ -39,6 +25,9 @@ const NavBar = ({ accounts, setAccounts }) => {
           'window.ethereum.networkVersion:',
           window.ethereum.networkVersion,
         );
+        setMsgError(
+          'Wrong Network, change your Metamask Network to Rinkeby Test Network!',
+        );
         setIsOpen(true);
       } else {
         setAccounts(accounts);
@@ -51,44 +40,26 @@ const NavBar = ({ accounts, setAccounts }) => {
     }
   }
 
-  async function handleNetwork() {
-    setIsOpen(false);
-    await window.ethereum.request({
-      method: 'wallet_switchEthereumChain',
-      params: [{ chainId: '0x4' }],
-    });
-    if (window.ethereum) {
-      const accounts = await window.ethereum.request({
-        method: 'eth_requestAccounts',
-      });
-      setAccounts(accounts);
-    }
-  }
-
   return (
-    <Flex justify='space-between' align='center' padding='30px'>
+    <Flex
+      justify='space-between'
+      align='center'
+      alignSelf='center'
+      padding='30px'
+    >
       {/* Alert - Wrong Network */}
-      <AlertDialog isOpen={isOpen}>
-        <AlertDialogOverlay>
-          <AlertDialogContent>
-            <AlertDialogHeader color='red' fontSize='md' fontWeight='bold'>
-              Alert
-            </AlertDialogHeader>
-            <AlertDialogBody>{msgError}</AlertDialogBody>
-            <AlertDialogFooter>
-              <Button colorScheme='red' onClick={() => handleNetwork()}>
-                Ok
-              </Button>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialogOverlay>
-      </AlertDialog>
+      <Alert
+        isOpen={isOpen}
+        msgError={msgError}
+        setIsOpen={setIsOpen}
+        setAccounts={setAccounts}
+      />
 
       {/* Left Side - Social Media Icons */}
       <Flex
         display={{ base: 'none', lg: 'flex' }}
         justify='space-around'
-        width='35%'
+        width={{ lg: '35%', xxl: '20%' }}
         padding='0 75px'
       >
         <Link isExternal href='https://Facebook.com'>
@@ -104,23 +75,26 @@ const NavBar = ({ accounts, setAccounts }) => {
 
       {/* Right Side - Sections and Connect */}
       <Flex
-        display={{ base: 'none', lg: 'flex' }}
+        display={{ base: 'none', md: 'flex' }}
         justify='space-around'
         align='center'
-        width='35%'
+        width={{ md: '50%', lg: '35%', xxl: '20%' }}
         padding='30px'
       >
-        <Box margin='0 15px'>About</Box>
+        <ModalButton title='Mint' subtitle='Mint blahblah' />
         <Spacer />
-        <Box margin='0 15px'>Mint</Box>
+        <ModalButton title='About' subtitle='About blahblah' />
         <Spacer />
-        <Box margin='0 15px'>Team</Box>
+        <ModalButton title='Team' subtitle='Team blahblah' />
         <Spacer />
       </Flex>
 
       {/* Connect Button */}
       {isConnected ? (
-        <Box margin='0 5px' width={{ base: '100%', lg: '30%' }}>
+        <Box
+          margin='0 5px'
+          width={{ base: '100%', md: '50%', lg: '30%', xxl: '20%' }}
+        >
           <Text isTruncated>Connected Wallet:</Text>
           <Link
             href={`https://rinkeby.etherscan.io/address/${accounts}`}
@@ -130,7 +104,6 @@ const NavBar = ({ accounts, setAccounts }) => {
               {accounts}
             </Text>
           </Link>
-          {/* https://etherscan.io/address/0x1C24e5bC9A6c15836a23fE67CEd0bf1302aE4f5a */}
         </Box>
       ) : (
         <Button

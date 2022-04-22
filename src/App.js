@@ -1,14 +1,14 @@
 import { ChakraProvider, extendTheme } from '@chakra-ui/react';
 import { useState } from 'react';
 import './App.css';
-import MainMint from './MainMint';
-import NavBar from './NavBar';
+import NavBar from './Components//NavBar';
+import MainMint from './Components/MainMint';
 const breakpoints = {
   sm: '30em',
   md: '48em',
   lg: '62em',
   xl: '80em',
-  '2xl': '96em',
+  xxl: '96em',
 };
 
 const theme = extendTheme({ breakpoints });
