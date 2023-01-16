@@ -4,8 +4,6 @@ Using React, Chakra-UI, OpenZeppelin, Ethers and Hardhat.
 
 Building a Simple Full Web3 Mint Website.
 
-DEMO: https://react-hardhat-ethers-chakra.vercel.app/
-
 Using: 
 
 File .env get keys:
